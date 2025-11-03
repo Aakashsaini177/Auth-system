@@ -20,13 +20,13 @@ function Login() {
     e.preventDefault();
     const { email, password } = loginInfo;
 
-    // Validation check
     if (!email || !password) {
       return handleError('Email and password are required');
     }
 
     try {
-      const url = `http://localhost:5050/auth/login`;
+      // ✅ Updated URL for deployed backend
+      const url = `https://auth-backend-77i2.onrender.com/auth/login`;
 
       const response = await fetch(url, {
         method: 'POST',
@@ -39,15 +39,12 @@ function Login() {
       const result = await response.json();
       console.log('Login response:', result);
 
-      // Check all possible key names (compatibility with old + new backend)
       const success = result.success || result.status === 'success';
       const token = result.token || result.jwtToken;
       const user = result.user || { username: result.name };
 
       if (success) {
         handleSuccess(result.message || 'Login successful!');
-
-        // ✅ Save token and username
         localStorage.setItem('token', token);
         localStorage.setItem('loggedInUser', user.username);
 
