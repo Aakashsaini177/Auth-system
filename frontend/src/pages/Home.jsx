@@ -91,7 +91,7 @@ function Home() {
                 key={index}
                 className="bg-gray-800 rounded-xl p-4 hover:scale-105 transition-transform shadow-lg"
               >
-                <div className="w-full h-56 overflow-hidden rounded-lg mb-4">
+                <div className="w-full h-70 overflow-hidden rounded-lg mb-4">
                   <img
                     src={item.image || ""}
                     alt={item.name}
