@@ -8,18 +8,21 @@ function Home() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
+  // ✅ Get logged-in user
   useEffect(() => {
     const storedUser = localStorage.getItem("loggedInUser");
     setLoggedInUser(storedUser);
   }, []);
 
+  // ✅ Logout function (added back)
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("loggedInUser");
-    handleSuccess("User logged out");
+    handleSuccess("User logged out successfully!");
     setTimeout(() => navigate("/login"), 1000);
   };
 
+  // ✅ Fetch products from backend
   const fetchProducts = async () => {
     try {
       const url = "http://localhost:5050/products";
@@ -43,7 +46,6 @@ function Home() {
   }, []);
 
   return (
-    // <div className="min-h-screen w-screen bg-gray-900 text-white flex flex-col">
     <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col overflow-x-hidden">
       {/* Navbar */}
       <nav className="flex items-center justify-between px-10 py-4 bg-gray-950 shadow-md">
@@ -66,7 +68,7 @@ function Home() {
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center flex-1 text-center px-4 mt-10">
         <h2 className="text-4xl md:text-5xl font-bold mb-4">
-          Aakash Saini <span className="text-purple-500">'s Project </span>
+          Aakash Saini <span className="text-purple-500">'s Project</span>
         </h2>
         <p className="text-gray-300 max-w-2xl mb-6">
           Securely manage user access and authentication with our system — a
@@ -83,21 +85,21 @@ function Home() {
           Our Products
         </h3>
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((item, index) => (
               <div
                 key={index}
-                className="bg-gray-800 rounded-xl p-4 hover:scale-105  transition-transform shadow-lg"
+                className="bg-gray-800 rounded-xl p-4 hover:scale-105 transition-transform shadow-lg"
               >
-                <img
-                  className="h-fit w-full overflow-hidden rounded-lg "
-                  // w-64 h-64 overflow-hidden rounded-lg  rounded-lg mb-4 w-full h-40 object-cover
-                  src={item.image || ""}
-                  alt={item.name}
-                  // className="rounded-lg mb-4 w-full h-40 object-cover"
-                />
+                <div className="w-full h-48 overflow-hidden rounded-lg mb-4">
+                  <img
+                    src={item.image || ""}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <h4 className="font-semibold text-lg mb-1">{item.name}</h4>
-                <p className="text-gray-400 text-sm mb-2 line-clamp-2 ">
+                <p className="text-gray-400 text-sm mb-2 line-clamp-2">
                   {item.description || "No description available"}
                 </p>
                 <p className="text-purple-400 font-bold text-lg">
