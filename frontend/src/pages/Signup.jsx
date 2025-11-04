@@ -26,6 +26,14 @@ function Signup() {
     if (!username || !email || !password) {
       return handleError('name, email and password are required');
     }
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (password.length < 4) {
+      return handleError('Password must be at least 4 characters long');
+    }
+    if (!specialCharRegex.test(password)) {
+      return handleError('Password must include at least one special character');
+    }
+
 
     try {
       // ✅ Updated URL for deployed backend

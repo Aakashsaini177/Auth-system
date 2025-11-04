@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleError, handleSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
+import { handleError, handleSuccess } from "../utils";
 
 function Home() {
   const [loggedInUser, setLoggedInUser] = useState("");
   const [products, setProducts] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,29 +13,28 @@ function Home() {
     setLoggedInUser(storedUser);
   }, []);
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("loggedInUser");
-    handleSuccess("User Loggedout");
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000);
+    handleSuccess("User logged out");
+    setTimeout(() => navigate("/login"), 1000);
   };
 
   const fetchProducts = async () => {
     try {
       const url = "http://localhost:5050/products";
-      const headers = {
+      const response = await fetch(url, {
+        method: "GET",
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
-      };
-      const response = await fetch(url, headers);
+      });
+      if (!response.ok) throw new Error("Failed to fetch products");
       const result = await response.json();
-      console.log(result);
       setProducts(result);
     } catch (err) {
-      handleError(err);
+      handleError(err.message || "Failed to fetch products");
     }
   };
 
@@ -45,34 +43,77 @@ function Home() {
   }, []);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      {}
-      <h1>Welcome {loggedInUser || "Guest"}</h1>
-      <button
-        onClick={handleLogout}
-        style={{
-          backgroundColor: "purple",
-          color: "white",
-          border: "none",
-          padding: "10px 20px",
-          borderRadius: "5px",
-          marginTop: "10px",
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </button>
+    // <div className="min-h-screen w-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col overflow-x-hidden">
+      {/* Navbar */}
+      <nav className="flex items-center justify-between px-10 py-4 bg-gray-950 shadow-md">
+        <h1 className="text-2xl font-bold text-purple-400 tracking-wide">
+          Auth-System
+        </h1>
+        <div className="flex items-center gap-6">
+          <p className="text-sm text-gray-300">
+            {loggedInUser ? `Hello, ${loggedInUser}` : "Guest"}
+          </p>
+          <button
+            onClick={handleLogout}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+          >
+            Logout
+          </button>
+        </div>
+      </nav>
 
-      <div style={{ marginTop: "30px" }}>
-        {products &&
-          products.map((item, index) => (
-            <ul key={index}>
-              <span>
-                {item.name} : {item.price}
-              </span>
-            </ul>
-          ))}
-      </div>
+      {/* Hero Section */}
+      <section className="flex flex-col items-center justify-center flex-1 text-center px-4 mt-10">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          Aakash Saini <span className="text-purple-500">'s Project </span>
+        </h2>
+        <p className="text-gray-300 max-w-2xl mb-6">
+          Securely manage user access and authentication with our system — a
+          complete solution for modern web applications.
+        </p>
+        <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+          Thank you
+        </button>
+      </section>
+
+      {/* Product Section */}
+      <section className="px-10 py-10 bg-gray-950 rounded-t-3xl">
+        <h3 className="text-2xl font-semibold text-purple-400 mb-6">
+          Our Products
+        </h3>
+        {products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+            {products.map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 rounded-xl p-4 hover:scale-105  transition-transform shadow-lg"
+              >
+                <img
+                  className="h-fit w-full overflow-hidden rounded-lg "
+                  // w-64 h-64 overflow-hidden rounded-lg  rounded-lg mb-4 w-full h-40 object-cover
+                  src={item.image || ""}
+                  alt={item.name}
+                  // className="rounded-lg mb-4 w-full h-40 object-cover"
+                />
+                <h4 className="font-semibold text-lg mb-1">{item.name}</h4>
+                <p className="text-gray-400 text-sm mb-2 line-clamp-2 ">
+                  {item.description || "No description available"}
+                </p>
+                <p className="text-purple-400 font-bold text-lg">
+                  ₹
+                  {Number(item.price).toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center mt-10">No products found</p>
+        )}
+      </section>
 
       <ToastContainer />
     </div>
