@@ -8,13 +8,13 @@ function Home() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  // ✅ Get logged-in user
+  //Get logged-in user
   useEffect(() => {
     const storedUser = localStorage.getItem("loggedInUser");
     setLoggedInUser(storedUser);
   }, []);
 
-  // ✅ Logout function (added back)
+  //Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("loggedInUser");
@@ -22,7 +22,7 @@ function Home() {
     setTimeout(() => navigate("/login"), 1000);
   };
 
-  // ✅ Fetch products from backend
+  // Fetch products from backend
   const fetchProducts = async () => {
     try {
       const url = "http://localhost:5050/products";
@@ -47,8 +47,8 @@ function Home() {
 
   return (
     <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col overflow-x-hidden">
-      {/* Navbar */}
-      <nav className="flex items-center justify-between px-10 py-4 bg-gray-950 shadow-md">
+      {/*Navbar */}
+      <nav className="flex items-center justify-between px-8 py-5 bg-gray-950 shadow-md w-full z-50 border-b border-gray-800">
         <h1 className="text-2xl font-bold text-purple-400 tracking-wide">
           Auth-System
         </h1>
@@ -65,12 +65,12 @@ function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center flex-1 text-center px-4 mt-10">
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">
+      {/*Hero Section */}
+      <section className="flex flex-col items-center justify-center text-center px-6 sm:px-10 pt-20 pb-16 bg-gray-900">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
           Aakash Saini <span className="text-purple-500">'s Project</span>
         </h2>
-        <p className="text-gray-300 max-w-2xl mb-6">
+        <p className="text-gray-300 max-w-2xl mb-6 text-base md:text-lg">
           Securely manage user access and authentication with our system — a
           complete solution for modern web applications.
         </p>
@@ -79,8 +79,8 @@ function Home() {
         </button>
       </section>
 
-      {/* Product Section */}
-      <section className="px-10 py-10 bg-gray-950 rounded-t-3xl">
+      {/*Product Section */}
+      <section className="px-8 py-12 bg-gray-950 rounded-t-3xl">
         <h3 className="text-2xl font-semibold text-purple-400 mb-6">
           Our Products
         </h3>
@@ -91,7 +91,7 @@ function Home() {
                 key={index}
                 className="bg-gray-800 rounded-xl p-4 hover:scale-105 transition-transform shadow-lg"
               >
-                <div className="w-full h-48 overflow-hidden rounded-lg mb-4">
+                <div className="w-full h-56 overflow-hidden rounded-lg mb-4">
                   <img
                     src={item.image || ""}
                     alt={item.name}
