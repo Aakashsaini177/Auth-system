@@ -1,14 +1,18 @@
-import express from 'express';
-import ensureAuthenticated from '../Middlewares/Auth.js';
+
+import express from "express";
+import ensureAuthenticated from "../Middlewares/Auth.js";
 
 const router = express.Router();
 
-router.get('/', ensureAuthenticated, (req, res) => {
-  console.log('---- logged in user detail ---', req.user);
+// Protected route: Only logged-in users can access
+router.get("/", ensureAuthenticated, (req, res) => {
+  console.log("---- Logged in user ----", req.user);
 
+  // Sample static products (you can later fetch from DB)
   res.status(200).json([
-    { name: "mobile", price: 10000 },
-    { name: "tv", price: 20000 }
+    { name: "Mobile", price: 10000, description: "Latest smartphone" },
+    { name: "TV", price: 20000, description: "Smart LED TV" },
+    { name: "Laptop", price: 55000, description: "Powerful work machine" },
   ]);
 });
 

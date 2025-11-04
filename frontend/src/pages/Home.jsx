@@ -22,26 +22,40 @@ function Home() {
     setTimeout(() => navigate("/login"), 1000);
   };
 
-  // Fetch products from backend
-  const fetchProducts = async () => {
-    try {
-      const url = `${process.env.REACT_APP_API_URL}/products`;
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) throw new Error("Failed to fetch products");
-
-      const result = await response.json();
-      setProducts(result);
-    } catch (err) {
-      handleError(err.message || "Failed to fetch products");
+ // Fetch products from backend
+const fetchProducts = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      handleError("Please login first");
+      return;
     }
-  };
+
+    const url = `${import.meta.env.VITE_API_URL}/products`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Response status:", response.status);
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("Products received:", result);
+    setProducts(result);
+  } catch (err) {
+    handleError(err.message || "Failed to fetch products");
+  }
+};
+
+  
 
   useEffect(() => {
     fetchProducts();
