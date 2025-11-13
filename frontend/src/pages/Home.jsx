@@ -64,7 +64,7 @@ const fetchProducts = async () => {
   return (
     <div className="min-h-screen w-full bg-gray-900 text-white flex flex-col overflow-x-hidden">
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-8 py-5 bg-gray-950 shadow-md w-full z-50 border-b border-gray-800">
+      {/* <nav className="flex items-center justify-between px-8 py-5 bg-gray-950 shadow-md w-full z-50 border-b border-gray-800">
         <h1 className="text-2xl font-bold text-purple-400 tracking-wide">
           Auth-System
         </h1>
@@ -76,10 +76,43 @@ const fetchProducts = async () => {
             onClick={handleLogout}
             className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
           >
-            Logout
+            Login
           </button>
+        ) : (
+  <button
+    onClick={() => navigate("/login")}
+    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+  >
+    Login
+  </button>
+)}
         </div>
-      </nav>
+      </nav> */}
+      <nav className="flex items-center justify-between px-8 py-5 bg-gray-950 shadow-md w-full z-50 border-b border-gray-800">
+  <h1 className="text-2xl font-bold text-purple-400 tracking-wide">
+    Auth-System
+  </h1>
+  <div className="flex items-center gap-6">
+    <p className="text-sm text-gray-300">
+      {loggedInUser ? `Hello, ${loggedInUser}` : "Guest"}
+    </p>
+    {loggedInUser ? (
+      <button
+        onClick={handleLogout}
+        className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+      >
+        Logout
+      </button>
+    ) : (
+      <button
+        onClick={() => navigate("/login")}
+        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+      >
+        Login
+      </button>
+    )}
+  </div>
+</nav>
 
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center text-center px-6 sm:px-10 pt-20 pb-16 bg-gray-900">

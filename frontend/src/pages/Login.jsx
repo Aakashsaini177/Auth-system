@@ -25,7 +25,7 @@ function Login() {
     }
 
     try {
-      const url = `https://auth-backend-77i2.onrender.com/auth/login`;
+      const url = `${import.meta.env.VITE_API_URL}/auth/login`;
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,11 +98,17 @@ function Login() {
               className="bg-gray-800 border border-gray-700 focus:border-purple-500 rounded-lg px-4 py-2.5 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 transition"
             />
           </div>
+          {/* Forgot Password Link */}
+          <div className="text-right">
+            <Link to="/forgotpassword" className="text-purple-400 hover:text-purple-300 font-medium transition">
+              Forgot Password?
+            </Link>
+          </div>
 
           {/*Login Button */}
           <button
             type="submit"
-            className="w-full mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105"
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105"
           >
             Login
           </button>
